@@ -15,11 +15,11 @@ const animateSnake=function() {
   paintHead(head);
   if(game.hasSnakeEatenFood()) {
     snake.grow();
-    createFood(numberOfRows,numberOfCols);
+    createFood();
     drawFood(food);
     game.increaseScore();
-    alert(game.score);
   }
+  displayScore(game.getCurrentScore());
 }
 
 const changeSnakeDirection=function(event) {
@@ -47,15 +47,15 @@ const createSnake=function() {
   snake=game.createSnake();
 }
 
-const createFood=function(numberOfRows,numberOfCols) {
-  food = game.createFood(numberOfRows,numberOfCols);
+const createFood=function() {
+  food = game.createFood();
 }
 
 const startGame=function() {
   createSnake();
   drawGrids(numberOfRows,numberOfCols);
   drawSnake(snake);
-  createFood(numberOfRows,numberOfCols);
+  createFood();
   drawFood(food);
   addKeyListener();
   animator=setInterval(animateSnake,140);
