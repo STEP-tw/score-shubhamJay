@@ -49,10 +49,6 @@ const createSnake=function() {
   game.addSnake(snake);
 }
 
-const createFood=function() {
-  food = game.createFood();
-}
-
 const createGame=function() {
   let topLeft=new Position(0,0,"east");
   let bottomRight=new Position(numberOfCols,numberOfRows,"east");
