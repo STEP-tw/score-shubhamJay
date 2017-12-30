@@ -1,22 +1,17 @@
-let snake=undefined;
-let food=undefined;
 let numberOfRows=60;
 let numberOfCols=120;
 
-let game = new Game(numberOfRows,numberOfCols);
 let animator=undefined;
 
 const animateSnake=function() {
-  let oldHead=snake.getHead();
-  let oldTail=snake.move();
-  let head=snake.getHead();
-  paintBody(oldHead);
-  unpaintSnake(oldTail);
-  paintHead(head);
+  let details=game.move();
+  paintBody(details.oldHead);
+  unpaintSnake(details.oldTail);
+  paintHead(details.head);
   if(game.hasSnakeEatenFood()) {
-    snake.grow();
-    createFood();
-    drawFood(food);
+    game.grow();
+    game.createFood();
+    drawFood(game.getFood());
     game.increaseScore();
   }
   displayScore(game.getCurrentScore());
@@ -25,13 +20,13 @@ const animateSnake=function() {
 const changeSnakeDirection=function(event) {
   switch (event.code) {
     case "KeyA":
-      snake.turnLeft();
+      game.turnLeft();
       break;
     case "KeyD":
-      snake.turnRight();
+      game.turnRight();
       break;
     case "KeyC":
-      snake.grow();
+      game.grow();
       break;
     default:
   }
@@ -44,21 +39,35 @@ const addKeyListener=function() {
 }
 
 const createSnake=function() {
-  snake=game.createSnake();
+  let tail=new Position(12,10,"east");
+  let body=[];
+  body.push(tail);
+  body.push(tail.next());
+  let head=tail.next().next();
+
+  snake=new Snake(head,body);
+  game.addSnake(snake);
 }
 
 const createFood=function() {
   food = game.createFood();
 }
 
+const createGame=function() {
+  let topLeft=new Position(0,0,"east");
+  let bottomRight=new Position(numberOfCols,numberOfRows,"east");
+  game=new Game(topLeft,bottomRight);
+}
+
 const startGame=function() {
+  createGame();
   createSnake();
   drawGrids(numberOfRows,numberOfCols);
-  drawSnake(snake);
-  createFood();
-  drawFood(food);
+  game.createFood();
+  drawFood(game.getFood());
+  drawSnake(game.getSnake());
   addKeyListener();
-  animator=setInterval(animateSnake,140);
+  animator=setInterval(animateSnake,70);
 }
 
 window.onload=startGame;
