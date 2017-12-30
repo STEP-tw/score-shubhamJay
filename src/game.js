@@ -14,13 +14,11 @@ Game.prototype.createSnake = function (){
   body.push(tail.next());
   let head=tail.next().next();
 
-  this.snake=new Snake(head,body);
-  return this.snake;
+  return this.snake=new Snake(head,body);
 };
 
 Game.prototype.createFood = function () {
-  this.food = generateRandomPosition(this.xMax,this.yMax);
-  return this.food;
+  return this.food = generateRandomPosition(this.xMax,this.yMax);
 };
 
 Game.prototype.hasSnakeEatenFood = function () {
@@ -34,10 +32,4 @@ Game.prototype.increaseScore = function () {
 
 Game.prototype.getCurrentScore = function () {
   return this.score;
-};
-
-Game.prototype.actionOnFoodEaten = function () {
-  this.snake.grow();
-  this.createFood()
-  this.increaseScore();
 };
